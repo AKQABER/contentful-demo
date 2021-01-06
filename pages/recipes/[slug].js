@@ -7,8 +7,6 @@ import { getEntries, getEntry } from '../../modules/contentful';
 
 export async function getStaticProps({ params }) {
   const recipe = await getEntry('recipe', params.slug);
-  console.log(recipe);
-
   return {
     props: {
       recipe,
