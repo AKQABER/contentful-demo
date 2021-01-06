@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "contentful": "^8.1.7",
+    "critters": "^0.0.6",
     "next": "10.0.4",
     "nextjs-progressbar": "^0.0.7",
     "react": "17.0.1",
