@@ -1,65 +1,64 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import Link from 'next/link';
+import useSWR from 'swr';
+import { getEntries } from '../modules/contentful';
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+export async function getStaticProps() {
+  const recipes = await getEntries('recipe');
+  const blogs = await getEntries('blogPost');
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+  return {
+    props: {
+      recipes,
+      blogs,
+    },
+  };
 }
+
+const Index = props => {
+  const recipes = useSWR('recipe', getEntries, {
+    initialData: props.recipes,
+    revalidateOnMount: true,
+  }).data;
+  const blogs = useSWR('blogPost', getEntries, {
+    initialData: props.blogs,
+    revalidateOnMount: true,
+  }).data;
+
+  return (
+    <div className="container">
+      <Head>
+        <title>Recipes</title>
+      </Head>
+      <h1>Recipes</h1>
+      <div className="recipes-container">
+        {recipes.length &&
+          recipes.map(recipe => (
+            <Link key={recipe.slug} href={`/recipes/${recipe.slug}`}>
+              <div className="recipe-link">
+                <img
+                  src={recipe.mainImage.fields.file.url}
+                  alt={recipe.title}
+                />
+                {recipe.title}
+              </div>
+            </Link>
+          ))}
+      </div>
+      <h1>Content</h1>
+      <div className="contents-container">
+        <div>
+          <h2>Blogs</h2>
+          {blogs.length &&
+            blogs.map(blog => (
+              <Link key={blog.slug} href={`/blog/${blog.slug}`}>
+                {blog.title}
+              </Link>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Index;

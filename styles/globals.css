@@ -14,3 +14,22 @@ a {
 * {
   box-sizing: border-box;
 }
+
+img {
+  max-width: 100%;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+h1 {
+  padding-bottom: 32px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 32px;
+}
+
+p {
+  line-height: 1.6;
+}
