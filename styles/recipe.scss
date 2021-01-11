@@ -70,3 +70,15 @@ h4 {
 .markdown-container {
   margin: 64px 0;
 }
+
+.locale-switch {
+  margin-bottom: 32px;
+
+  li {
+    margin-bottom: 8px;
+
+    &.active {
+      font-weight: bold;
+    }
+  }
+}

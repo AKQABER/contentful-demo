@@ -19,6 +19,16 @@ export const contentfulClient = () => {
   return client;
 };
 
+export async function getLocalisedEntries(contentType, locale = 'de-DE') {
+  const entries = await contentfulClient().getEntries({
+    content_type: contentType,
+    locale,
+  });
+
+  const pages = entries.items.map(entry => entry.fields);
+  return pages.map(page => page.post.fields);
+}
+
 export async function getEntries(contentType) {
   const entries = await contentfulClient().getEntries({
     content_type: contentType,

@@ -1,17 +1,26 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import useSWR from 'swr';
-import { getLocalisedEntries, getEntries } from '../modules/contentful';
+import { getLocalisedEntries, getEntries } from '../../modules/contentful';
 
-export async function getStaticProps() {
+export async function getStaticProps({ params }) {
+  const locale = params.locale;
   const recipes = await getEntries('recipe');
-  const blogs = await getLocalisedEntries('blogPostGlobal');
+  const blogs = await getLocalisedEntries('blogPostGlobal', locale);
 
   return {
     props: {
       recipes,
       blogs,
+      locale,
     },
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { locale: 'en-US' } }, { params: { locale: 'de-DE' } }],
+    fallback: true,
   };
 }
 
@@ -21,7 +30,7 @@ const Index = props => {
     revalidateOnMount: true,
   }).data;
 
-  const blogs = useSWR('blogPostGlobal', getLocalisedEntries, {
+  const blogs = useSWR(['blogPostGlobal', props.locale], getLocalisedEntries, {
     initialData: props.blogs,
     revalidateOnMount: true,
   }).data;
@@ -34,10 +43,10 @@ const Index = props => {
       <h1>Recipes</h1>
       <div className="locale-switch">
         <ul>
-          <li>
+          <li className={props.locale === 'en-US' ? 'active' : ''}>
             <Link href="/en-US">English</Link>
           </li>
-          <li>
+          <li className={props.locale === 'de-DE' ? 'active' : ''}>
             <Link href="/de-DE">Deutsch</Link>
           </li>
         </ul>
