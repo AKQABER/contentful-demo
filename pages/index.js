@@ -35,10 +35,10 @@ const Index = props => {
       <div className="locale-switch">
         <ul>
           <li>
-            <Link href="/en-US">English</Link>
+            <Link href="/en">English</Link>
           </li>
           <li>
-            <Link href="/de-DE">Deutsch</Link>
+            <Link href="/de">Deutsch</Link>
           </li>
         </ul>
       </div>

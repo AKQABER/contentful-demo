@@ -19,7 +19,7 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
   return {
-    paths: [{ params: { locale: 'en-US' } }, { params: { locale: 'de-DE' } }],
+    paths: [{ params: { locale: 'en' } }, { params: { locale: 'de' } }],
     fallback: false,
   };
 }
@@ -43,11 +43,11 @@ const Index = props => {
       <h1>Recipes</h1>
       <div className="locale-switch">
         <ul>
-          <li className={props.locale === 'en-US' ? 'active' : ''}>
-            <Link href="/en-US">English</Link>
+          <li className={props.locale === 'en' ? 'active' : ''}>
+            <Link href="/en">English</Link>
           </li>
-          <li className={props.locale === 'de-DE' ? 'active' : ''}>
-            <Link href="/de-DE">Deutsch</Link>
+          <li className={props.locale === 'de' ? 'active' : ''}>
+            <Link href="/de">Deutsch</Link>
           </li>
         </ul>
       </div>

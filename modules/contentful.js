@@ -1,5 +1,10 @@
 const contentful = require('contentful');
 
+const locales = {
+  en: 'en-US',
+  de: 'de-DE',
+};
+
 const getClient = () => {
   return contentful.createClient({
     // This is the space ID. A space is like a project folder in Contentful terms
@@ -19,10 +24,10 @@ export const contentfulClient = () => {
   return client;
 };
 
-export async function getLocalisedEntries(contentType, locale = 'de-DE') {
+export async function getLocalisedEntries(contentType, locale = 'de') {
   const entries = await contentfulClient().getEntries({
     content_type: contentType,
-    locale,
+    locale: locales[locale],
   });
 
   const pages = entries.items.map(entry => entry.fields);
