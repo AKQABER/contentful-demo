@@ -20,7 +20,6 @@ export async function getStaticProps({ params }) {
 export async function getStaticPaths() {
   return {
     paths: [{ params: { locale: 'en-US' } }, { params: { locale: 'de-DE' } }],
-    fallback: true,
   };
 }
 
@@ -52,7 +51,8 @@ const Index = props => {
         </ul>
       </div>
       <div className="recipes-container">
-        {recipes.length &&
+        {recipes &&
+          recipes.length &&
           recipes.map(recipe => (
             <Link key={recipe.slug} href={`/recipes/${recipe.slug}`}>
               <div className="recipe-link">
@@ -69,7 +69,8 @@ const Index = props => {
       <div className="contents-container">
         <div>
           <h2>Blogs</h2>
-          {blogs.length &&
+          {blogs &&
+            blogs.length &&
             blogs.map(blog => (
               <p key={blog.slug}>
                 <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
