@@ -31,7 +31,7 @@ export async function getLocalisedEntries(contentType, locale = 'de') {
   });
 
   const pages = entries.items.map(entry => entry.fields);
-  return pages.map(page => page.post.fields);
+  return pages.map(page => page.post && page.post.fields).filter(Boolean);
 }
 
 export async function getEntries(contentType) {
