@@ -8,9 +8,9 @@ const locales = {
 const getClient = () => {
   return contentful.createClient({
     // This is the space ID. A space is like a project folder in Contentful terms
-    space: 'tdb7rbybk22m',
+    space: process.env.CONTENTFUL_SPACE,
     // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-    accessToken: 'lcwCohQY_VEUyMfV2VCwEscGwF3qTpdt9eMIuvKsq3U',
+    accessToken: process.env.CONTENTFUL_TOKEN,
   });
 };
 
